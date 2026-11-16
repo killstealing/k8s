@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: skew-nginx
+  labels:
+    app: skew-nginx
+spec:
+  containers:
+  - name: skew-nginx
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/nginx:1.25
+  topologySpreadConstraints:
+  - maxSkew: 1
+    whenUnsatisfiable: DoNotSchedule
+    topologyKey: topology.kubernetes.io/zone
+    selector:
+      matchLabels:
+        app: skew-nginx

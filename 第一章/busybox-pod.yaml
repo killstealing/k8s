@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+  namespace: development
+spec:
+  containers:
+  - image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/busybox:latest
+    command:
+      - sleep
+      - "3600"
+    name: busybox

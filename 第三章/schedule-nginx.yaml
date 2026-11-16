@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: schedule-nginx
+  labels:
+    app: schedule-nginx
+spec:
+  schedulerName: my-scheduler
+  containers:
+  - name: schedule-nginx
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/nginx:1.25

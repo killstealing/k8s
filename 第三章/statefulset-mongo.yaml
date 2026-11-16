@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  selector:
+    matchLabels:
+      role: mongo
+  serviceName: "mongo"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        role: mongo
+        environment: test
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: mongo
+        image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/mongo:6.0.7
+        command:
+        - mongod
+        - "--replSet"
+        - rs0
+        - "--bind_ip_all"
+        # - "--smallfiles"
+        # - "--noprealloc"
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongo-persistent-storage
+          mountPath: /data/db
+      # - name: mongo-sidecar
+      #   image: cvallance/mongo-k8s-sidecar
+      #   env:
+      #   - name: MONGO_SIDECAR_POD_LABELS
+      #     value: "role=mongo,environment=test"
+      #   - name: KUBERNETES_MONGO_SERVICE_NAME
+      #     value: "mongo"
+  volumeClaimTemplates:
+  - metadata:
+      name: mongo-persistent-storage
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "local-path"
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 2Gi

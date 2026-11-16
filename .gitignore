@@ -1,0 +1,13 @@
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# K8s local config (do not commit real cluster credentials)
+kubeconfig
+*.kubeconfig
+admin.conf
