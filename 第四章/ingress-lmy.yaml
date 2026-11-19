@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webapp-ingress-lmy
+  namespace: default
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - mywebsite.com
+    secretName: mywebsite-ingress-secret
+  rules:
+  - host: mywebsite.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: webapp-svc-lmy
+            port:
+              number: 80

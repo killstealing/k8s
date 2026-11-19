@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-lmy
+  namespace: default
+  labels:
+    app: webapp-lmy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp-lmy
+  template:
+    metadata:
+      labels:
+        app: webapp-lmy
+    spec:
+      containers:
+      - name: webapp-lmy
+        image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/nginx:alpine
+        ports:
+        - containerPort: 80
+        command: ["/bin/sh","-c"]
+        args:
+        - echo "<h1>✅ Pod + Service + Ingress 连通成功</h1>" > /usr/share/nginx/html/index.html && nginx -g "daemon off;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-svc-lmy
+  namespace: default
+spec:
+  selector:
+    app: webapp-lmy
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
