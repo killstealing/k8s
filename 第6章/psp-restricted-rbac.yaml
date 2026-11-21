@@ -1,0 +1,30 @@
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: psp:unpriviledged
+  namespace: psp-example
+rules:
+- apiGroups:
+  - policy
+  resources:
+  - podsecuritypolicies
+  resourceNames:
+  - restricted      #PodSecurityPolicy名称
+  verbs:
+  - use
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: fake-user:psp:unpriviledged
+  namespace: psp-example
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: psp:unpriviledged
+subjects:
+- kind: ServiceAccount
+  name: fake-user
+  namespace: psp-example
