@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-policy-demo
+  labels:
+    app: nginx-policy-demo
+spec:
+  containers:
+  - name: nginx
+    image: swr.cn-north-4.myhuaweicloud.com/ddn-k8s/docker.io/library/nginx:1.25
